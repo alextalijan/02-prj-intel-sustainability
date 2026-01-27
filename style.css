@@ -69,6 +69,27 @@ body {
     opacity: 0.7;
 }
 
+/* Mobile version of timeline intro */
+.timeline-intro-mobile {
+	text-align: center;
+	margin: 80px 0 0px;
+	color: #334155;
+	font-size: 16px;
+    opacity: 0.7;
+	display: none; /* Hidden by default */
+}
+
+/* Show mobile message on smaller screens */
+@media (max-width: 770px) {
+	.timeline-intro {
+		display: none; /* Hide desktop message */
+	}
+
+	.timeline-intro-mobile {
+		display: block; /* Show mobile message */
+	}
+}
+
 /* ========== TIMELINE CAROUSEL SETUP ========== */
 .timeline-section {
 	max-width: 1200px;
