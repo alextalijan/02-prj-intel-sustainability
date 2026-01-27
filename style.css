@@ -32,7 +32,7 @@ body {
 	letter-spacing: 1px;
     font-family: Roboto, sans-serif;
 	padding-bottom: 20px;
-    width: 18ch;
+    width: 18ch; /* Default wider heading on larger screens */
     margin: 0 auto;
 	text-transform: uppercase;
 }
@@ -49,7 +49,7 @@ body {
 
 .description {
 	margin: 20px auto 0;
-	max-width: 70ch;
+	max-width: 70ch; /* Default wider description on larger screens */
 	font-size: 18px;
 	line-height: 1.5;
 }
@@ -70,7 +70,9 @@ body {
 	padding: 0 20px;
 	display: grid; /* Creates a grid layout for cards */
 	grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
-	gap: 60px 40px; /* Vertical and horizontal spacing */
+	--row-gap: 60px;
+	--col-gap: 40px;
+	gap: var(--row-gap) var(--col-gap); /* Vertical and horizontal spacing */
 	place-items: center; /* Centers cards in their grid cells */
 }
 
@@ -78,8 +80,8 @@ body {
 /* Wrapper: Stationary container that never moves */
 /* Purpose: Provides stable hover area and prevents glitching */
 .card-container {
-	width: 280px;
-	height: 340px;
+	width: 320px; /* Slightly larger to fill more space */
+	height: 400px; /* Taller to match the wider card */
 	perspective: 1000px; /* Creates 3D space - distance from viewer to element */
 	position: relative; /* Allows absolute positioning of arrows (::after) */
 }
@@ -150,7 +152,7 @@ body {
 /* Card image styling */
 .card-image {
 	width: 100%;
-	height: 180px;
+	height: 200px; /* Taller image to suit larger cards */
 	object-fit: cover;
 	border-radius: 8px;
 	margin-bottom: 15px;
@@ -196,9 +198,9 @@ body {
 .card-container:nth-child(2)::after {
 	content: '→'; /* The arrow character */
 	position: absolute;
-	right: -85px; /* Position outside card on the right */
+	left: 100%; /* Start at the right edge of the card */
 	top: 50%; /* Vertically center */
-	transform: translateY(-50%); /* Fine-tune centering */
+	transform: translate(calc(var(--col-gap) / 2), -50%); /* Move to middle of gap */
 	font-size: 32px;
 	color: #0088d1;
 }
@@ -219,9 +221,9 @@ body {
 .card-container:nth-child(4)::after {
 	content: '→';
 	position: absolute;
-	left: -85px; /* Position outside card on the left */
+	right: 100%; /* Start at left edge of card */
 	top: 50%;
-	transform: translateY(-50%) scaleX(-1); /* Center, then flip horizontally */
+	transform: translate(calc(var(--col-gap) / -2), -50%) scaleX(-1); /* Move to middle of gap and flip */
 	font-size: 32px;
 	color: #0088d1;
 }
@@ -242,9 +244,9 @@ body {
 .card-container:nth-child(8)::after {
 	content: '→';
 	position: absolute;
-	right: -85px;
+	left: 100%;
 	top: 50%;
-	transform: translateY(-50%);
+	transform: translate(calc(var(--col-gap) / 2), -50%);
 	font-size: 32px;
 	color: #0088d1;
 }
@@ -300,3 +302,93 @@ body {
 
 3. Wrapper stays still entire time = stable hover area = no glitching
 */
+
+/* ========== MID SCREENS: 771px–1250px carousel ========== */
+/* On midsize screens, show cards in a horizontal carousel with small gaps. */
+@media (min-width: 771px) and (max-width: 1250px) {
+	.timeline-section {
+		display: flex;
+		flex-wrap: nowrap;
+		gap: 20px;
+		max-width: 100%;
+		padding: 56px 32px;    /* Extra top/bottom room so flips aren't clipped */
+		scroll-padding: 0 32px;     /* Keep snap aligned with inset */
+		overflow-x: auto;
+		overflow-y: visible;
+		scroll-snap-type: x mandatory; /* Snap cards while scrolling */
+		align-items: center;
+		position: relative;
+	}
+
+	/* Hide all arrow pseudo-elements */
+	.card-container::after {
+		display: none !important;
+	}
+
+	/* Reset manual grid placements and offsets from desktop layout */
+	.card-container:nth-child(n) {
+		grid-column: auto !important;
+		grid-row: auto !important;
+		left: 0 !important;
+	}
+
+	/* Keep cards slightly larger and snap-friendly */
+	.card-container {
+		flex: 0 0 auto;
+		width: 320px;
+		height: 400px;
+		scroll-snap-align: start;
+	}
+
+	.card-image {
+		height: 200px;
+	}
+}
+
+/* ========== PHONES: ≤770px adjustments ========== */
+/* On phones, gently reduce header sizes and stack cards vertically. */
+@media (max-width: 770px) {
+	/* Smaller logo, heading, and description for readability */
+	.logo {
+		width: 90px; /* Slightly smaller Intel logo */
+	}
+
+	.h1 {
+		font-size: 44px; /* Reduce heading size a bit */
+		width: 14ch;     /* Narrower heading so "sustainability" sits alone */
+	}
+
+	/* Make the underline match the smaller logo width */
+	.h1::after {
+		width: 90px;
+	}
+
+	.description {
+		font-size: 16px; /* Slightly smaller description text */
+		max-width: 50ch; /* Narrower text width only on small screens */
+	}
+
+	/* Stack cards vertically: use flex column for simple flow */
+	.timeline-section {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 32px;
+		max-width: 500px; /* Narrower container to fit phones */
+	}
+
+	/* Hide all arrow pseudo-elements on phones */
+	.card-container::after {
+		display: none !important;
+	}
+
+	/* Align cards in one vertical line and remove offsets */
+	.card-container,
+	.card-container:nth-child(n) {
+		position: static; /* Remove relative offsets on small screens */
+		left: 0 !important;
+		width: 100%;
+		max-width: 320px;
+		height: 400px;
+	}
+}
