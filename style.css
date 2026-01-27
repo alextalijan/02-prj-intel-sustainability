@@ -98,6 +98,20 @@ body {
 	transform: rotateY(180deg);
 }
 
+/* Also rotate when focused via keyboard (Tab) */
+.card-container:focus .timeline-card,
+.card-container:focus-visible .timeline-card,
+.card-container:focus-within .timeline-card {
+	transform: rotateY(180deg);
+}
+
+/* Visible focus ring for accessibility */
+.card-container:focus,
+.card-container:focus-visible {
+	outline: 3px solid #00a8ff; /* High-contrast focus ring */
+	outline-offset: 6px;        /* Pulls ring away from card edges */
+}
+
 /* ========== FRONT AND BACK FACES ========== */
 .card-front,
 .card-back {
