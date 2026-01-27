@@ -63,17 +63,45 @@ body {
     opacity: 0.7;
 }
 
-/* ========== TIMELINE GRID SETUP ========== */
+/* ========== TIMELINE CAROUSEL SETUP ========== */
 .timeline-section {
 	max-width: 1200px;
-	margin: 50px auto;
-	padding: 0 20px;
-	display: grid; /* Creates a grid layout for cards */
-	grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
-	--row-gap: 60px;
-	--col-gap: 40px;
-	gap: var(--row-gap) var(--col-gap); /* Vertical and horizontal spacing */
-	place-items: center; /* Centers cards in their grid cells */
+	margin: 25px auto;
+	padding: 56px 0; /* Extra room so flips aren't clipped */
+	position: relative; /* For positioning the swipe hint */
+}
+
+/* Wider carousel on large screens */
+@media (min-width: 1200px) {
+	.timeline-section {
+		max-width: 1400px;
+	}
+}
+
+/* Scrollable track for the cards */
+.timeline-track {
+	display: flex; /* Horizontal carousel on larger screens */
+	flex-wrap: nowrap;
+	gap: 24px; /* Space between cards */
+	overflow-x: auto; /* Allow horizontal scrolling */
+	overflow-y: visible;
+	scroll-snap-type: x mandatory; /* Snap cards while scrolling */
+	scroll-padding: 0 32px; /* Keep snap aligned with padding */
+	align-items: center;
+	padding: 32px 32px; /* Match the scroll padding */
+}
+
+/* Swipe hint above the carousel to show it scrolls */
+.carousel-indicator {
+	position: absolute; /* Stay fixed inside the carousel */
+	left: 50%;
+	top: 32px; /* Sits above the cards */
+	transform: translateX(-50%);
+	text-align: center;
+	font-size: 22px;
+	color: #0088d1;
+	letter-spacing: 2px;
+	pointer-events: none; /* Keep scrolling smooth */
 }
 
 /* ========== FLIP CARD STRUCTURE ========== */
@@ -83,7 +111,9 @@ body {
 	width: 320px; /* Slightly larger to fill more space */
 	height: 400px; /* Taller to match the wider card */
 	perspective: 1000px; /* Creates 3D space - distance from viewer to element */
-	position: relative; /* Allows absolute positioning of arrows (::after) */
+	position: relative; /* Keeps the card layers positioned correctly */
+	flex: 0 0 auto; /* Keep cards in one row for the carousel */
+	scroll-snap-align: start; /* Snap each card on scroll */
 }
 
 /* Inner card: The element that actually rotates */
@@ -189,107 +219,7 @@ body {
 	color: #ffffff;
 }
 
-/* ========== ARROW CONNECTORS ========== */
-/* ::after creates a pseudo-element - like adding extra HTML with CSS */
-/* position: absolute positions arrows relative to their card-container */
-
-/* Row 1: Arrows pointing right between cards 1→2 and 2→3 */
-.card-container:nth-child(1)::after,
-.card-container:nth-child(2)::after {
-	content: '→'; /* The arrow character */
-	position: absolute;
-	left: 100%; /* Start at the right edge of the card */
-	top: 50%; /* Vertically center */
-	transform: translate(calc(var(--col-gap) / 2), -50%); /* Move to middle of gap */
-	font-size: 32px;
-	color: #0088d1;
-}
-
-/* Transition: Arrow pointing down from card 3 to next row */
-.card-container:nth-child(3)::after {
-	content: '→';
-	position: absolute;
-	left: 50%; /* Horizontally center */
-	bottom: -50px; /* Position below card */
-	transform: translateX(-50%) rotate(90deg); /* Center, then rotate 90° clockwise */
-	font-size: 32px;
-	color: #0088d1;
-}
-
-/* Row 2: Arrows pointing left (reversed) between cards 4←5 and 5←6 */
-.card-container:nth-child(5)::after,
-.card-container:nth-child(4)::after {
-	content: '→';
-	position: absolute;
-	right: 100%; /* Start at left edge of card */
-	top: 50%;
-	transform: translate(calc(var(--col-gap) / -2), -50%) scaleX(-1); /* Move to middle of gap and flip */
-	font-size: 32px;
-	color: #0088d1;
-}
-
-/* Transition: Arrow pointing down from card 6 to next row */
-.card-container:nth-child(6)::after {
-	content: '→';
-	position: absolute;
-	left: 50%;
-	bottom: -50px;
-	transform: translateX(-50%) rotate(90deg); /* Center, then rotate down */
-	font-size: 32px;
-	color: #0088d1;
-}
-
-/* Row 3: Arrows pointing right between cards 7→8 and 8→9 */
-.card-container:nth-child(7)::after,
-.card-container:nth-child(8)::after {
-	content: '→';
-	position: absolute;
-	left: 100%;
-	top: 50%;
-	transform: translate(calc(var(--col-gap) / 2), -50%);
-	font-size: 32px;
-	color: #0088d1;
-}
-
-/* Last card has no arrow */
-.card-container:nth-child(9)::after {
-	display: none;
-}
-
-/* ========== ZIGZAG GRID POSITIONING ========== */
-/* nth-child(n) targets specific children by number */
-/* grid-column and grid-row place cards in specific cells */
-
-/* Row 1: Cards flow left to right (1→2→3) */
-.card-container:nth-child(1) { grid-column: 1; grid-row: 1; }
-.card-container:nth-child(2) { grid-column: 2; grid-row: 1; }
-.card-container:nth-child(3) { grid-column: 3; grid-row: 1; }
-
-/* Row 2: Cards reversed - placed 6←5←4 (left to right) but HTML order is 4,5,6 */
-/* Card 4 goes to column 3 (right), card 6 goes to column 1 (left) */
-.card-container:nth-child(4) { 
-	grid-column: 3; /* Place in rightmost column */
-	grid-row: 2;
-	position: relative;
-	left: 40px; /* Shift entire row right for offset effect */
-}
-.card-container:nth-child(5) { 
-	grid-column: 2; /* Place in middle column */
-	grid-row: 2;
-	position: relative;
-	left: 40px;
-}
-.card-container:nth-child(6) { 
-	grid-column: 1; /* Place in leftmost column */
-	grid-row: 2;
-	position: relative;
-	left: 40px;
-}
-
-/* Row 3: Cards flow left to right again (7→8→9) */
-.card-container:nth-child(7) { grid-column: 1; grid-row: 3; }
-.card-container:nth-child(8) { grid-column: 2; grid-row: 3; }
-.card-container:nth-child(9) { grid-column: 3; grid-row: 3; }
+/* No arrows or zigzag positioning for the clean carousel layout */
 
 /* ========== HOW THE FLIP WORKS ========== 
 1. Card starts at rotateY(0°):
@@ -302,48 +232,6 @@ body {
 
 3. Wrapper stays still entire time = stable hover area = no glitching
 */
-
-/* ========== MID SCREENS: 771px–1250px carousel ========== */
-/* On midsize screens, show cards in a horizontal carousel with small gaps. */
-@media (min-width: 771px) and (max-width: 1250px) {
-	.timeline-section {
-		display: flex;
-		flex-wrap: nowrap;
-		gap: 20px;
-		max-width: 100%;
-		padding: 56px 32px;    /* Extra top/bottom room so flips aren't clipped */
-		scroll-padding: 0 32px;     /* Keep snap aligned with inset */
-		overflow-x: auto;
-		overflow-y: visible;
-		scroll-snap-type: x mandatory; /* Snap cards while scrolling */
-		align-items: center;
-		position: relative;
-	}
-
-	/* Hide all arrow pseudo-elements */
-	.card-container::after {
-		display: none !important;
-	}
-
-	/* Reset manual grid placements and offsets from desktop layout */
-	.card-container:nth-child(n) {
-		grid-column: auto !important;
-		grid-row: auto !important;
-		left: 0 !important;
-	}
-
-	/* Keep cards slightly larger and snap-friendly */
-	.card-container {
-		flex: 0 0 auto;
-		width: 320px;
-		height: 400px;
-		scroll-snap-align: start;
-	}
-
-	.card-image {
-		height: 200px;
-	}
-}
 
 /* ========== PHONES: ≤770px adjustments ========== */
 /* On phones, gently reduce header sizes and stack cards vertically. */
@@ -369,12 +257,20 @@ body {
 	}
 
 	/* Stack cards vertically: use flex column for simple flow */
-	.timeline-section {
+	.timeline-track {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		gap: 32px;
 		max-width: 500px; /* Narrower container to fit phones */
+		margin: 0 auto;
+		padding: 0;
+		overflow-x: visible;
+	}
+
+	/* Hide swipe hint when cards are stacked */
+	.carousel-indicator {
+		display: none;
 	}
 
 	/* Hide all arrow pseudo-elements on phones */
