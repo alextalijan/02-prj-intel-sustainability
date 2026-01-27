@@ -1,1 +1,92 @@
-/* Add your CSS here */
+/* Import Roboto font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+/* Import Inter font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* Basic page reset and font */
+body {
+	margin: 0;
+	font-family: Inter, Arial, sans-serif;
+	background: #f5f7fa;
+	color: #0f172a;
+}
+
+/* Header with blue gradient background */
+.header {
+	background: linear-gradient(135deg, #0088d1 0%, #0057a5 100%);
+	color: #ffffff;
+	text-align: center;
+	padding: 60px 20px;
+}
+
+/* Resize the SVG logo */
+.logo {
+	width: 120px;
+	height: auto;
+	margin-bottom: 30px;
+}
+
+.h1 {
+	margin: 20px 0 10px;
+	font-size: 60px;
+	letter-spacing: 1px;
+    font-family: Roboto, sans-serif;
+	padding-bottom: 20px;
+    width: 18ch;
+    margin: 0 auto;
+	text-transform: uppercase;
+}
+
+/* Centered break line below h1, same width as logo */
+.h1::after {
+	content: '';
+	display: block;
+	width: 120px;
+	height: 2px;
+	background-color: #5eb3e4;
+	margin: 20px auto 0;
+}
+
+.description {
+	margin: 20px auto 0;
+	max-width: 70ch;
+	font-size: 18px;
+	line-height: 1.5;
+}
+
+/* Simple spacing for timeline section */
+section {
+	max-width: 1000px;
+	margin: 40px auto;
+	padding: 0 16px;
+}
+
+section > div {
+	background: #ffffff;
+	border: 1px solid #e5e7eb;
+	border-radius: 8px;
+	padding: 16px;
+	margin-bottom: 16px;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+section h2 {
+	margin: 0 0 6px;
+	color: #0b72b9;
+}
+
+section h3 {
+	margin: 0 0 10px;
+}
+
+section p {
+	margin: 0;
+	line-height: 1.5;
+}
+
+/* Footer note */
+body > p:last-of-type {
+	text-align: center;
+	margin: 20px 0 40px;
+	color: #334155;
+}
