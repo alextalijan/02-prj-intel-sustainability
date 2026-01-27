@@ -3,9 +3,14 @@
 /* Import Inter font from Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 /* Basic page reset and font */
 body {
-	margin: 0;
 	font-family: Inter, Arial, sans-serif;
 	background: #f5f7fa;
 	color: #0f172a;
@@ -17,6 +22,7 @@ body {
 	color: #ffffff;
 	text-align: center;
 	padding: 60px 20px;
+    width: 100vw;
 }
 
 /* Resize the SVG logo */
@@ -32,7 +38,7 @@ body {
 	letter-spacing: 1px;
     font-family: Roboto, sans-serif;
 	padding-bottom: 20px;
-    width: 18ch; /* Default wider heading on larger screens */
+    max-width: 18ch; /* Default wider heading on larger screens */
     margin: 0 auto;
 	text-transform: uppercase;
 }
@@ -98,7 +104,7 @@ body {
 	top: 32px; /* Sits above the cards */
 	transform: translateX(-50%);
 	text-align: center;
-	font-size: 22px;
+	font-size: 18px;
 	color: #0088d1;
 	letter-spacing: 2px;
 	pointer-events: none; /* Keep scrolling smooth */
@@ -215,7 +221,7 @@ body {
 .card-back p {
 	margin: 0;
 	line-height: 1.6;
-	font-size: 14px;
+	font-size: 15px;
 	color: #ffffff;
 }
 
@@ -242,8 +248,8 @@ body {
 	}
 
 	.h1 {
-		font-size: 44px; /* Reduce heading size a bit */
-		width: 14ch;     /* Narrower heading so "sustainability" sits alone */
+		font-size: 42px; /* Reduce heading size a bit */
+		max-width: 14ch;     /* Narrower heading so "sustainability" sits alone */
 	}
 
 	/* Make the underline match the smaller logo width */
@@ -252,10 +258,14 @@ body {
 	}
 
 	.description {
-		font-size: 16px; /* Slightly smaller description text */
-		max-width: 50ch; /* Narrower text width only on small screens */
+		font-size: 17px; /* Slightly smaller description text */
+		max-width: 40ch; /* Narrower text width only on small screens */
 	}
-
+	/* Reduce timeline intro spacing on mobile */
+	.timeline-intro {
+		margin: 30px 0 10px; /* Much tighter spacing to save viewport space */
+		font-size: 14px; /* Slightly smaller on mobile */
+	}
 	/* Stack cards vertically: use flex column for simple flow */
 	.timeline-track {
 		display: flex;
