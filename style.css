@@ -319,3 +319,10 @@ body {
 		height: 400px;
 	}
 }
+
+/* ========== EXTRA SMALL SCREENS: ≤360px adjustments ========== */
+@media (max-width: 360px) {
+	.h1 {
+		font-size: 38px; /* Slightly smaller for very narrow screens */
+	}
+}
