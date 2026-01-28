@@ -113,7 +113,7 @@ body {
 	overflow-x: auto; /* Allow horizontal scrolling */
 	overflow-y: visible;
 	scroll-snap-type: x mandatory; /* Snap cards while scrolling */
-	scroll-padding: 0 32px; /* Keep snap aligned with padding */
+	scroll-padding: 32px 32px; /* Keep snap aligned with padding */
 	align-items: center;
 	padding: 32px 32px; /* Match the scroll padding */
 }
